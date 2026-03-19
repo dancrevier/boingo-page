@@ -11,7 +11,12 @@
       "Bash(ls:*)",
       "Bash(textutil -convert txt -stdout /Users/dan/boingo-page/Chords/CantSeeTab.doc)",
       "Bash(textutil -convert txt -stdout /Users/dan/boingo-page/Chords/LittleGirlsTab.rtf)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(for file:*)",
+      "Bash(do)",
+      "Bash(sed -i '' 's|</head>|  <!-- Google tag \\(gtag.js\\) -->\\\\n  <script async src=\"\"https://www.googletagmanager.com/gtag/js?id=G-EKZKJ7JX0Q\"\"></script>\\\\n  <script>\\\\n    window.dataLayer = window.dataLayer || [];\\\\n    function gtag\\(\\){dataLayer.push\\(arguments\\);}\\\\n    gtag\\(''''js'''', new Date\\(\\)\\);\\\\n    gtag\\(''''config'''', ''''G-EKZKJ7JX0Q''''\\);\\\\n  </script>\\\\n</head>|' \"$file\")",
+      "Bash(echo \"done: $file\")",
+      "Bash(done)"
     ],
     "additionalDirectories": [
       "/Users/dan/Pair backup"
