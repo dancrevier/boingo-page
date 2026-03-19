@@ -1,0 +1,49 @@
+==================================
+      who do you want to be today?
+==================================
+
+  Well, I'm calling this a bass tab because I'm tabbing it out in bass
+  format. The guitar part is actually the same as the bass though. Just
+  power-chord it. If you're playing this in a band, tho, you may want to
+  step it up one to avoid the 0-based power chords.
+
+  In general it's a pretty simple song. There are only a few different
+  parts.
+
+  The main "chorus" line ("who do you want to be today...")
+ G ---------------------------------------------
+ D ---------------------------------------------
+ A -----------------------------0--2------------
+ E --0--2-2---2-2--2---0--2-2-------------------
+
+  switches every bar with:
+ G ---------------------------------------------
+ D ---------------------------------------------
+ A ---------------------------------------------
+ E --0--2-2---2-2--2---0--2-2---5--4------------
+
+  At "just like someone on TV" it plays this:
+ G ---------------------------------------------
+ D ---------------------------------------------
+ A -----------2------------------0--------------
+ E --0------------------2-----------------------
+
+  "Oh boredom is so terrible, it's like a dread disease":
+ G --------------------------------------------------------------
+ D --------------------------------------------------------------
+ A ---------------0-0--2-2---------------------------------------
+ E -0-2-0-2-0-2------------------0-2-0-2-0-2---5-5-4-3-----------
+
+  obviously, you'll have to repeat ^^^^^^ those parts more than I have
+  shown here, but I'm guessing you have the intelligence to figure out
+  how many times to play the 0-2 part. Same with the chorus parts. The main
+  thing is that the notes are here.
+
+  Anyway, I'll try to tab out some more songs as often as I can. I'll try
+  to sequence some MIDIs or S3Ms too, if I can, since there aren't many
+  of MK/O/Boingo songs, and there definetely should be.
+
+  Comments, questions, corrections, delusions of grandeur: vecna@mo.net --
+  ------------------------------------------------ http://mo.net/~vecna --
+
+

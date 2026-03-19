@@ -1,0 +1,85 @@
+<!--This file created 10/8/97 6:14 PM by Claris Home Page version 2.0-->
+<HTML>
+<HEAD>
+   <TITLE>BBEdit Remote Link Checker Page</TITLE>
+   <META NAME=GENERATOR CONTENT="Claris Home Page 2.0">
+   <X-SAS-WINDOW TOP=66 BOTTOM=768 LEFT=8 RIGHT=538>
+<!-- Information for search engines --><META Name="Description" Content="BBEdit Remote Link Checker page"><META Name="Keywords" Content="BBEdit, link, check, URL, www,
+		ftp"><META NAME="Author-Personal" CONTENT="Dan Crevier"><META NAME="Publisher" CONTENT="Dan Crevier"><META NAME="Publisher-Email" CONTENT="Dan.Crevier@pobox.com"><META NAME="Content-Language" CONTENT="en-US"><META NAME="Coverage" CONTENT="Worldwide">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+<H1><IMG SRC="Icons/BBEditExtension.gif" WIDTH=32 HEIGHT=32
+X-SAS-UseImageWidth X-SAS-UseImageHeight ALIGN=left><FONT
+FACE="helvetica,arial,geneva" COLOR="#0000AF">BBEdit Remote Link
+Checker</FONT></H1>
+
+<P>By <A HREF="mailto:Dan.Crevier@pobox.com">Dan Crevier</A></P>
+
+<H2>Introduction</H2>
+
+<P>The BBEdit Remote Link Checker is a BBEdit extension for web
+authoring that allows you to check all of the remote http and ftp
+links in a web page. It installs a "Check Remote Links..." command to
+the internet window. An error browser window is used to present the
+bad links. It is compatible with BBEdit 3.5 or later, including
+BBEdit Lite.</P>
+
+<P>The BBEdit Remote Link Checker is shareware. A single user license
+is $10. You can register using the enclosed Register program.</P>
+
+<H2>Latest version</H2>
+
+<P>The latest version is
+<A HREF="ftp://ftp.boingo.org//dan/RemoteLinkChecker1.1.hqx">1.1</A>,
+dated 1/8/97.</P>
+
+<H2>Usage</H2>
+
+<P>When you choose "Check Remote Links...", you are presented with a
+dialog that lets you specify the base URL. This is used for relative
+links. For example, &lt;a href="otherpage.html"&gt;. If you set the
+base URL to "http://mysite.com/mypath/", then it will look for the
+URL "http://mysite.com/mypath/otherpage.html". The extension
+recognizes the &lt;base href=""&gt; tag, which must be placed in the
+&lt;head&gt; section. This tag specifies the base URL for the page,
+and will override what is specified in the dialog box.</P>
+
+<P>You also have the option to just check the selection, if there is
+one. The selection must contain the full tag. It cannot be just a
+URL.</P>
+
+<P>Choosing "Check Remote Links..." with the option key down will use
+the default options, which is the last base URL you used, and
+checking the entire document.</P>
+
+<P>When you select "Check", the extension will try to contact each
+site that is referenced, and will return a list of errors, if any.
+</P>
+
+<H2>Scripting Support</H2>
+
+<P>The extension can be scripted with AppleScript, using the
+following interface:</P>
+
+<PRE>	check remote URL [string]  -- URL to check
+	Result: boolean  -- Is link valid?
+&nbsp;</PRE>
+
+<H2>Acknowlegements</H2>
+
+<P>Thanks to Rich Siegel of
+<A HREF="http://www.barebones.com">BareBones</A>, and
+<A HREF="http://www.eden.com/~hsoi/">John C. Daub</A> of
+<A HREF="http://www.metrowerks.com"> Metrowerks</A>.
+<HR>
+</P>
+
+<P><CENTER><A HREF="http://wwwscout.cs.wisc.edu/scout/report"><IMG
+SRC="Graphics/scoutsel.gif" ALT="Scout Report Selection" WIDTH=100
+HEIGHT=29 X-SAS-UseImageWidth X-SAS-UseImageHeight ALIGN=bottom></A>
+</CENTER></P>
+
+<P><CENTER><A HREF="../index.html">Dan Crevier</A></CENTER></P>
+</BODY>
+</HTML>

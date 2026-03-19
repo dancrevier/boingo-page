@@ -1,0 +1,702 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <BASE HREF="http://www.boingo.org/waste/">
+   <TITLE>The WASTE Page</TITLE>
+<!-- Information for search engines -->
+<META Name="Description" Content="Information about the Macintosh TextEdit replacement WASTE.">
+<META Name="Keywords" Content="WASTE, TextEdit, Macintosh, programming, library">
+<META NAME="Author-Personal" CONTENT="Dan Crevier">
+<META NAME="Publisher" CONTENT="Dan Crevier">
+<META NAME="Publisher-Email" CONTENT="Dan.Crevier@pobox.com">
+<META NAME="Content-Language" CONTENT="en-US">
+<META NAME="Coverage" CONTENT="Worldwide">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+<H1>The WASTE Page</H1>
+
+<H2>Introduction</H2>
+
+<P>WASTE is a TextEdit replacement written by
+<A HREF="mailto:marco.piovanelli@pobox.com">Marco Piovanelli</A>.
+WASTE stands for WorldScript-Aware Styled Text Engine. The main
+features of WASTE are:</P>
+
+<UL>
+   <LI>Compatible with styled TextEdit.
+   </li>
+   
+   <LI>Text size is limited only by memory (no 32k barrier).
+   </li>
+   
+   <LI>Full WorldScript support, including inline input and
+   bidirectional scripts.
+   </li>
+   
+   <LI>Built-in for undo.
+   </li>
+   
+   <LI>Drag and drop text editing.
+   </li>
+   
+   <LI>Embedded objects.
+   </li>
+   
+   <LI>Real tabs.
+   </li>
+   
+   <LI>Fully justified text.
+   </li>
+   
+   <LI>Internet Config
+   </li>
+   
+   <LI>Customizable low-level hooks for drawing, measuring text, and
+   more.
+   </li>
+   
+   <LI>Demo with full C source code.
+   </li>
+</UL>
+
+<P>Marco also runs a <A HREF="http://www.merzwaren.com/waste/">WASTE
+page</A> with information on the upcoming WASTE 2.0.</P>
+
+<HR>
+<H2>
+What's New?</H2>
+
+<UL>
+	<li><b>7/19/01</b> Updated MacApp info (thanks Mike Rossetti)
+	</li>
+	
+   <li><b>5/28/01</b> Added link to
+	   <A HREF="http://www.eco-dip.unimi.it/R/">R</a>
+	</li>
+	
+    <li><b>11/4/00</b> Added link to
+	   <A HREF="http://www.ispq.com">iSpQ VideoChat</a>
+	</li>
+	
+  <LI><B>10/2/99</B> Added link to
+   <A HREF="http://tango.pervasive.com/">Tango</A>
+   </li>
+   
+   <LI><B>10/2/99</B> Added link to
+   <A HREF="http://asar.com">Hogwasher</A>
+   </li>
+   
+   <LI><B>10/2/99</B> Added link to
+   <A HREF="http://messenger.msn.com/">MSN Messenger</A>
+   </li>
+   
+</UL>
+
+<HR>
+
+<H2>WASTE and Support Files</H2>
+
+<DL>
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/waste-13.hqx">WASTE
+   1.3</A>
+	</dt>
+	   
+   <DD>The latest version of WASTE.
+   </dd>
+   
+   <DT><A HREF="http://www.merzwaren.com/waste/">WASTE 2.0</A>
+   </dt>
+   
+   <DD>Work in progress on WASTE 2.0
+   </dd>
+
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/WASTE-QuickView-1.1.hqx">WASTE
+   1.1 QuickView Database</A>
+   </dt>
+   
+   <DD>A version of the WASTE 1.1 documentation in QuickView format.
+   </dd>
+   
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/WETabs1.3.1.hqx">WASTE
+   Tabs 1.3.1</A>
+   </dt>
+   
+   <DD>A set of routines for adding tab support to WASTE 1.1 and
+   WASTE 1.2. <B>Note</B>: For WASTE 1.3, use the tab code included
+   with WASTE 1.3.
+   </dd>
+
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/WASTEObjectHandlers1.2.6.hqx">WASTE
+   Object Handler Archive 1.2.6</A>
+   </dt>
+   
+   <DD>A set of object handlers for use with WASTE 1.2. Put together
+   by <A HREF="mailto:kamprath@kagi.com">Michael F. Kamprath</A> and
+   <A HREF="mailto:hsoi@eden.com">John Daub</A>. Includes handlers
+   for pictures, sounds, and files.
+   </dd>
+   
+   <DT><A HREF="ftp://tres.blki.hu//pub/WASTE_Align/">WASTE 1.2a3
+   with multiple alignment support</A>
+   </dt>
+   
+   <DD><A HREF="mailto:ndgy@tres.blki.hu">Szilveszter Juhos</A>'s
+   modified version of WASTE 1.2a3 that allows different paragraphs
+   to have different alignments.
+   </dd>
+   
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/WEExtras.hqx">WASTE
+   extras</A>
+   </dt>
+   
+   <DD>Hooks for WASTE 1.2 or later by
+   <A HREF="mailto:jkew@ix.netcom.com">Jonathan Kew</A>. One extra
+   shows invisible characters, and the other speeds things up when
+   you want to wrap lines only on CR's.
+   </dd>
+   
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/MPWMakefile.txt">MPW
+   Makefile</A>
+   </dt>
+   
+   <DD>From <A HREF="mailto:Damien.Doligez@inria.fr">Damien
+   Doligez</A>
+   </dd>
+
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/waste-multiple-undo.hqx">WASTE
+   1.3a4 modification for multiple undo support</A>
+   </dt>
+   
+   <DD>From <A HREF="mailto:asomorjai@globe.graphisoft.hu">Somorjai
+   Akos</A>
+   </dd>
+   
+   <DT><A HREF="http://www.pobox.com/~ngm/waste/">WASTE 1.2
+   documentation in html</A>
+   </dt>
+   
+   <DD>From <A HREF="mailto:neil.miller@pobox.com">Neil Miller</A>
+   </dd>
+   
+
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/waste-doc-word-13a4.hqx">WASTE
+   1.3a4 documentation in Word 5.1 format</A>
+   </dt>
+   
+   <DD>The file used to make the pdf version of the documentation.
+	</dd>
+</DL>
+
+<HR>
+
+<H2>Wrapper Classes</H2>
+
+<DL>
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/WASTETCL2.0b2.hqx">WASTE
+   TCL version 2.0b2</A>
+   </dt>
+   
+   <DD>A set of classes for using WASTE (any version) with TCL (THINK
+   Class Library), by <A HREF="http://www.boingo.org/dan/"> Dan
+   Crevier</A> .
+   </dd>
+
+   <DT><A HREF="http://www.bact.wisc.edu/CWASTEEdit/CWASTEEdit.html">PowerPlant
+   wrapper classes</A>
+   </dt>
+   
+   <DD>A set of classes for using WASTE with PowerPlant by
+   <A HREF="mailto:paustian@facstaff.wisc.edu">Timothy Paustian</A>.
+   </dd>
+
+   <DT><A HREF="ftp://ftp.dartmouth.edu/pub/mac/InterNews_Dev/World/DemoWasteText_1.3.sea.bin">UWEView</A>
+   </dt>
+   
+   <DD>A WASTE counterpart of the TTEView TextEdit wrapper object for
+   MacApp 2 (in pascal) by <A HREF="mailto:InterNews@dartmouth.edu">
+   Roger Brown</A>. It's not totally polished, but handles the
+   basics.
+   </dd>
+
+   <DT><A HREF="ftp://ftp.pictorius.com/cpx/user_examples/WASTE_CPX_DR2.sea.hqx">Prograph
+   Wrapper (DR-2)</A>
+   </dt>
+   
+   <DD>By <A HREF="mailto:johna@jolt.mpx.com.au">John Allsopp</A>.
+   </dd>
+
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/WASTE-MacApp.hqx">MacApp
+   3.1.5 wrapper</A></dt>
+   
+   <DD>From the Debugger Group at Apple. It supports the basic
+   functions of WASTE.
+   </dd>
+   
+   <DT><a href="http://developer.apple.com/tools/macapp/">MacApp</a></dt>
+   <DD>MacApp now has complete support for WASTE 1.3.4.
+     There is a complete framework for using WASTE along with an example of how WASTE can be
+     used as a text editor that supports embedding graphics, URLs, etc.
+	</dd>
+</DL>
+
+<HR>
+
+<H2>Sample Code</H2>
+
+<DL>
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/printing.txt">Printing
+   Code</A>
+   </dt>
+   <DD>Sample printing code in C by
+   <A HREF="mailto:cluster-one@unet.net"> Evan Maloney</A>.
+   </dd>
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/printing2.txt">More
+   Printing Code</A>
+   </dt>
+   <DD>More complete printing code in C++ by
+   <A HREF="mailto:alain@cs.uchicago.edu">Alain Aslag Roy</A>.
+   </dd>
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/RWPrinting.c">Even
+   more printing code</A>
+   </dt>
+   <DD>A routine to print a block of monostyled text using WASTE, by
+   <A HREF="mailto:rrwood@mars.execulink.com">Roy Wood</A>.
+   </dd>
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/WASTEGXPrinting.txt">GX
+   Printing Code</A>
+   </dt>
+   <DD>Code for printing with WASTE under Quickdraw GX by
+   <A HREF="mailto:xlz@Chem.LSA.umich.edu">Xiaolin Zhao</A>.
+   </dd>
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/XTND-WASTE.hqx">XTND
+   sample code</A>
+   </dt>
+   <DD>Sample code for using XTND with WASTE from
+   <A HREF="mailto:ForgetE@cafederic.qc.ca">Eric Forget</A>.
+   </dd>
+
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/waste-qd3d-qucktime.txt">QuickTime
+   and Quickdraw 3D Object Handlers</A>
+   </dt>
+   <DD>From <A HREF="mailto:xlz@Chem.LSA.umich.edu">Xiaolin Zhao</A>,
+	</dd>
+</DL>
+
+<HR>
+
+<H2>Some of the Programs Using WASTE</H2>
+
+<H3>(in alphabetical order)</H3>
+
+<DL>
+   <DT><A HREF="http://www.clixsounds.com/products/agentaudio/">Agent
+   Audio</A>
+   
+   <DD>A sound replacement utility produced by
+   <A HREF="http://www.clixsounds.com/">Clixsounds</A> and written by
+   Mark Wall of <A HREF="http://www.hsv.tis.net/~greenmtn/">Green
+   Mountain Software</A>
+   
+   <DT><A HREF="http://www.aol.com/aim/">AOL Instant Messenger</A>
+   
+   <DD>AOL's online chat program
+   
+
+   <DT><A HREF="http://www.tyo.laterra.or.jp/~akira/ATBEdit/ATBEdit_E.html">ATBEdit</A>
+   
+   <DD>A text editor by Akira.
+   
+   <DT><A HREF="http://www.druide.com">Antidote</A>
+   
+   <DD>Grammar checker, dictionary, conjugator for French.
+   
+
+   <DT><A HREF="http://www.claris.com/products/claris/emailer/emailer.html">Claris
+   Emailer</A>
+   
+   <DD>An email utility from
+   <A HREF="http://www.claris.com/index.html"> Claris</A>.
+   
+
+   <DT><A HREF="http://www-personal.umich.edu/~athaler/sw/CLImax/">CLImax</A>
+   
+   <DD>An AppleScript command line interface for the MacOS by
+   <A HREF="mailto:athaler@umich.edu">Andrew Thaler</A>.
+   
+   <DT><A HREF="http://www.chronosnet.com/">Consultant</A>
+   
+   <DD>A personal information manager
+   
+   <DT><A HREF="http://www.ctm.ch/PowerMail/PowerMail.html">CTM
+   PowerMail</A>
+   
+   <DD>A PowerTalk based email program.
+   
+   <DT><A HREF="http://www.neon.com/CyberGauge.html">CyberGauge</A>
+   
+   <DD>The Internet bandwidth utility
+   
+   <DT><A HREF="http://daytimer1.pcy.mci.net/comp/dto.html">Day-Timer
+   Organizer</A>
+   
+   <DD>A commercial cross-platform organizer.
+   
+   <DT><A HREF="http://www.xs4all.nl/~jaeho/FinderNote/">FinderNote</A>
+   
+   <DD>A text editor that works with clippings, so you can open the
+   files directly from the Finder, by
+   <A HREF="mailto:jaeho@xs4all.nl">Jae Ho Chang</A>
+   
+   <DT><A HREF="http://www.eloquent.com">Eloquent Player</A>
+   
+   <DD>A player for conferences-on-CD.
+   
+
+   <DT><A HREF="http://www.spiderisland.com/~chris/GeekTalk/">GeekTalk</A>
+   
+   <DD>A plugin for CU-SeeMe that adds text based chat support, by
+   Chris Silverberg.
+   
+   <DT><A HREF="http://come.to/gramotki">Gramotki</A>
+   
+   <DD>A replacement for Stickies with tons of nice enhancements.
+   
+   <DT><A HREF="http://asar.com">Hogwasher</A>
+   
+   <DD>A newsreader.
+   
+   <DT><A HREF="http://www.eden.com/~hsoi/prog.html#HAS">Hsoi's App
+   Shell</A>
+   
+   <DD>A application shell by
+   <A HREF="http://www.eden.com/~hsoi/">John C. Daub</A> that
+   includes support for WASTE based text editing.
+   
+
+   <DT><A HREF="http://dragon.acadiau.ca/~giles/HTML_Editor/Documentation.html">HTML
+   Editor</A>
+   
+   <DD>A WYSIWYG HTML editor written by Rick Giles.
+   
+   <DT><A HREF="ftp://ftp.sassafras.com//ftp/pub/software/">HTML
+   Viewer</A>
+   
+   <DD>A hypertext viewer by
+   <A HREF="mailto:kurash@dartmouth.edu">Mark Valence</A>.
+   
+   <DT><A HREF="http://www.softissimo.com/">Hugo Plus 8.0</A>
+   
+   <DD>A bilingual (french and english) grammar checker, by
+   Softissimo.
+   
+
+   <DT><A HREF="http://plantecohost.harvard.edu/pub/ik/ideakeeper.html">Idea
+   Keeper</A>
+   
+   <DD>A much enhanced Stickies replacement by
+   <A HREF="mailto:berntson@oeb.harvard.edu">Glenn M. Berntson</A>
+   
+   <DT><A HREF="http://home.worldonline.nl/~freeling/ICC.html">I
+   Ching Connexion 2.3</A>
+   
+   <DD>"I Ching with a new view" a divination utility by
+   <A HREF="mailto:freeling@worldonline.nl">Christiaan Freeling</A>
+   and <A HREF="mailto:edvanzon@euronet.nl">Ed Van Zon</A>.
+   
+   <DT><A HREF="http://www.imasy.or.jp/~kisara/">I'm TextViewer</A>
+   
+   <DD>A general text file viewer by
+   <A HREF="mailto:MAH02210@niftyserve.or.jp">Naoki Kisara</A>
+   
+   <DT><A HREF="http://www.microsoft.com/ie/mac/">Internet Explorer
+   4.0</A>
+   
+   <DD>Microsoft's web browser
+   
+   <DT><A HREF="http://www.dartmouth.edu/~moonrise/">InterNews</A>
+   
+   <DD>A newsreader by <A HREF="mailto:internews@valley.net">Roger
+   Brown</A>.
+   
+   <DT><A HREF="http://www.ispq.com">iSpQ VideoChat</a>
+   
+   <DD> Video conferencing and instant messaging by <a href="http://www.nanocom.com">nanoCom</a>
+
+   <DT><A HREF="http://www.kodak.com/daiHome/postcard/">Kodak Picture
+   Postcard Software</A>
+   
+   <DD>For making digital postcards with Kodak digital cameras.
+   
+
+   <DT><A HREF="http://www.dis.uniroma1.it/~demetres/Leonardo">Leonardo</A>
+   
+   <DD>A C Programming Environment for Reversible Execution and
+   Software Visualization
+   
+   <DT><A HREF="http://www.fogcity.com/letterrip.html">LetterRip</A>
+   
+   <DD>A list server from
+   <A HREF="http://www.fogcity.com">FogCity</A>
+   
+   <DT><A HREF="http://www.umich.edu/~rsug/ldap/max500/">maX.500</A>
+   
+   <DD>An X.500 Online Directory client by
+   <A HREF="mailto:mcs@umich.edu"> Mark Smith</A>. It will use WASTE
+   in an upcoming release.
+   
+
+   <DT><A HREF="http://www.boingo.org/dan/software/MacJDic.html">MacJDic</A>
+   
+   <DD>A Japanese-English dictionary application written by
+   <A HREF="http://www.boingo.org/dan/">Dan Crevier</A>.
+   
+
+   <DT><A HREF="http://www.qucis.queensu.ca/home/nsl/FTP/FTP.html">MacNial
+   0.9b1</A>
+   
+   <DD>A multi-paradigm interpreted language based on array theory.
+   By <A HREF="http://www.qucis.queensu.ca/home/maloneya/info.html">
+   Andy Maloney</A> and
+   <A HREF="http://www.qucis.queensu.ca/home/maloneya/ABCLab.html">
+   The Array-Based Computation Lab</A> at Queen's University.
+   
+
+   <DT><A HREF="http://chemgod.slip.umd.edu/~kidwell/weather.html">MacWx</A>
+   
+   <DD>A application that provides a Mac interface to internet
+   weather servers, by
+   <A HREF="mailto:kidwell@wam.umd.edu">Christopher Kidwll</A>
+   
+
+   <DT><A HREF="http://www.warwick.ac.uk/~corbe/MacZoop/MacZoop.html">MacZoop</A>
+   
+   <DD>A C++ programming framework.
+   
+
+   <DT><A HREF="http://www.macnetic.de/maczpoint/index.html">MacZPoint</A>
+   
+   <DD>A German offline newsreader and email software, by
+   <A HREF="mailto:a.wagner@umwelt.ecolink.org">Andreas Wagner</A>
+   
+   <DT><A HREF="http://www.treestar.com/mailstrom/">Mailstrom</A>
+   
+   <DD>A WASTE-based mail client
+   
+   <DT><A HREF="http://messenger.msn.com/">MSN Messenger</A>
+   
+   <DD>Microsoft's instant messenger client
+   
+
+   <DT><A HREF="http://www.cyrusoft.com/mulberry/mulbinfo.html">Mulbery</A>
+   
+   <DD>An IMAP email client
+   
+
+   <DT><A HREF="http://members.aol.com/karlbunker/index.html">MultiTimer</A>
+   
+   <DD>A shareware time-tracking utility by
+   <A HREF="mailto:KarlBunker@aol.com"> Karl Bunker</A>.
+   
+   <DT><A HREF="http://www.mozilla.org">Netscape Communicator</A>
+   
+   <DD>Netscape's browser package
+   
+   <DT><A HREF="http://www.microsoft.com/ie/mac/oe/">Outlook
+   Express</A>
+   
+   <DD>Microsoft's free email/news client
+   
+
+   <DT><A HREF="http://www.algonet.se/~optima/pagespinner.html">PageSpinner</A>
+   
+   <DD>An HTML editor.
+   
+
+   <DT><A HREF="http://www.westciv.com.au/Palimpsest.html">Palimpsest</A>
+   
+   <DD>A hypertext knowledge engineering application from
+   <A HREF="http://www.westciv.com.au">Western Civilisation</A>.
+   
+   <DT><A HREF="http://www.kamprath.net/claireware/">Personal Log</A>
+   
+   <DD>A program for managing collections of notes by
+   <A HREF="mailto:kamprat@leonardo.net">Michael F. Kamprath</A>.
+   
+   <DT><A HREF="http://users.skynet.be/smellenbergh/">POV-Ray
+   Unofficial Compile</A>
+   
+   <DD>A ray tracing application
+   
+
+   <DT><A HREF="http://www.ilesa.com/software/prompter.html">PrompterPro</A>
+   
+   <DD>An application which smoothly scrolls your speech down your
+   screen by <A HREF="http://www.ilesa.com/">ilesa Software</A>
+   
+   <DT><A HREF="http://www.python.org">Python</A>
+   
+   <DD>A freely distributable cross-platform programming language.
+   
+   <DT><A HREF="http://www.eco-dip.unimi.it/R/">R</A>
+   
+   <DD>A statistical application.
+   
+
+   <DT><A HREF="http://www.realsoftware.com/realbasic.html">REALbasic</A>
+   
+   <DD>A visual, object-oriented development environment
+   
+   <DT><A HREF="http://www.roaster.com">Roaster</A>
+   
+   <DD>A JAVA applet development environment from Natural
+   Intelligence.
+   
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/RTFV81.hqx">RTF
+   Viewer</A>
+   
+   <DD>By Mark Gaponoff
+   
+   <DT><A HREF="ftp://ftp.gmd.de/if-archive/scott-adams/">ScottFree/Mac
+   1.0</A>
+   
+   <DD>A freeware program to play Scott Adam's adventure games.
+   
+   <DT><A HREF="http://www.latenightsw.com">Script Debugger</A>
+   
+   <DD>A powerful replacement for Apple's Script Editor by
+   <A HREF="mailto:alldritt@wimsey.com">Mark Alldritt</A>.
+   
+   <DT><A HREF="http://www.sentius.com/Sentius/">Sentius Read!</A>
+   
+   <DD>A viewer program for enhanced hypermedia documents
+   
+
+   <DT><A HREF="http://www.shadowirc.com">ShadowIRC</A>
+   
+   <DD>An IRC client
+   
+
+   <DT><A HREF="http://www.xpressway.com/uplate/products.html">SiteStat</A>
+   
+   <DD>A web server log analysis program.
+   
+   <DT><A HREF="http://www.qks.com/">SmalltalkAgents</A>
+   
+   <DD>An application development environment from QKS.
+   
+   <DT><A HREF="http://www.kagi.com/brunk/">Speed Search</A>
+   
+   <DD>A shareware application that searches files for text, by Matt
+   Brunk.
+   
+   <DT><A HREF="http://www.merzwaren.com/style/">Style</A>
+   
+   <DD>A styled text editor by
+   <A HREF="mailto:marco.piovanelli@pobox.com"> Marco Piovanelli</A>.
+   
+   <DT><A HREF="http://www.systemsoft.co.jp/">SystemSoft
+   Dictionaries</A>
+   
+   <DD>Japanese, English-Japanese, Japanese-English dictionaries by
+   SystemSoft.
+   
+   <DT><A HREF="http://tango.pervasive.com/">Tango</A>
+   
+   <DD>Web application development software.
+   
+   <DT><A HREF="http://www.prefab.com/textmachine.html">Text
+   Machine</A>
+   
+   <DD>PreFab Text Machine(tm) adds verbs to AppleScript and Frontier
+   to search and replace based on text patterns defined by simple
+   keywords. A future release will bring the benefits of pattern
+   matching to people who don't write scripts.
+   
+   <DT><A HREF="http://members.aol.com/tombb/index.html">Tex-Edit
+   Plus</A>
+   
+   <DD>A WASTE-based version of <A HREF="mailto:tombb@aol.com">Tom
+   Bender</A>'s popular Tex-Edit editor.
+   
+   <DT><A HREF="http://www.sil.org/computing/texgx.html">TeXgX</A>
+   
+   <DD>A TeX based typesetting tool that supports GX fonts, by
+   <A HREF="mailto:jkew@ix.netcom.com">Jonathan Kew</A>
+   
+   <DT><A HREF="http://www.codeblazer.com/">UGather</A>
+   
+   <DD>A multimedia database manager
+   
+   <DT><A HREF="http://www.codeblazer.com/">UPresent</A>
+   
+   <DD>A multimedia presentation manager
+   
+
+   <DT><A HREF="http://www.concentric.net/~tsunmei/shareware/Unicorn.shtml">Unicorn
+   Editor</A>
+   
+   <DD>A WASTE-based text editor by
+   <A HREF="mailto:xlz@Chem.LSA.umich.edu">Xiaolin Zhao</A> that
+   provides special features for editing Chinese text.
+   
+   <DT><A HREF="http://pluto.njcc.com/~dtp/wannabe.html">WB^2</A>
+   
+   <DD>Wanna Be Web Browser, a text based web browser.
+   
+   <DT><A HREF="http://www.webcollage.com">WebCollage</A>
+   
+   <DD>A utility for building dynamic graphics for web pages.
+   
+
+   <DT><A HREF="http://www.bact.wisc.edu/WebWarriorTop.html">WebWarrior</A>
+   
+   <DD>A WASTE based HTML editor by
+   <A HREF="mailto:paustian@facstaff.wisc.edu"> Timothy Paustian</A>.
+   
+   <DT><A HREF="http://crash.ihug.co.nz/~bryanc/">WhatRoute</A>
+   
+   <DD>A freeware Macintosh implementation of traceroute by Bryan
+   Christianson.
+   
+   <DT><A HREF="http://www.tssoftware.com/tools.html">Worksheet
+   Magic</A>
+   
+   <DD>A utility for teachers that creates dozens of different
+   worksheets for students based on word lists that the instructor
+   enters only once
+   
+   <DT><A HREF="http://www.newsreaders.com/mac/yanw/">Yet Another
+   NewsWatcher</A>
+   
+   <DD>A news reader derived from NewsWatcher
+   
+   <DT><A HREF="http://www.e.kth.se/~e94_lih/html/Zafir.html">Zafir</A>
+   
+   <DD>A text editor that can work with two-byte fonts without the
+   language kits.
+</DL>
+
+<HR>
+
+<H2>Other Sources of Information</H2>
+
+<DL>
+   <DT>WASTE Mailing List
+   
+   <DD><A HREF="mailto:Dan.Crevier@pobox.com">Dan Crevier</A>
+   maintains the WASTE Mailing List using
+   <A HREF="http://www.fogcity.com/letterrip.html">LetterRip</A>. To
+   subscribe, send a message to
+   <A HREF="mailto:waste-on@lists.letterrip.com">waste-on@lists.letterrip.com</A>.
+   
+   <DT><A HREF="ftp://ftp.boingo.org//dan/WASTE/">Dan's ftp
+   server</A>
+   
+   <DD>Has the latest versions of most of the WASTE related stuff.
+</DL>
+
+<HR>
+Maintained by <A HREF="mailto:Dan.Crevier@pobox.com">Dan Crevier</A>.
+</BODY>
+</HTML>
