@@ -1,0 +1,26 @@
+/* Chord/tab pages — monospaced content */
+
+.chord-content {
+  font-family: "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", monospace;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  background: #1c1c1c;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 1.5rem;
+  overflow-x: auto;
+  white-space: pre;
+  color: #d8d8d8;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.back:hover {
+  color: #ff8c3a;
+  text-decoration: none;
+}
