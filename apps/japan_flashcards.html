@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japan Flashcards</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f5f0; min-height: 100vh; padding: 1rem; color: #1a1a1a; }
+  #app { max-width: 600px; margin: 0 auto; padding-top: 1rem; }
+  h1 { font-size: 20px; font-weight: 600; margin-bottom: 1.25rem; color: #1a1a1a; }
+  .tab-bar { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .tab { padding: 6px 14px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; cursor: pointer; background: #fff; color: #555; transition: all 0.15s; }
+  .tab.active { background: #1a56db; color: #fff; border-color: transparent; font-weight: 500; }
+  .tab:hover:not(.active) { background: #eee; }
+  .stats-row { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .stat-pill { background: #e8e8e4; border-radius: 8px; padding: 4px 12px; font-size: 12px; color: #555; }
+  .stat-pill span { font-weight: 600; color: #1a1a1a; }
+  .progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; }
+  .progress-label { font-size: 13px; color: #666; white-space: nowrap; }
+  .progress-bar-wrap { flex: 1; height: 4px; background: #ddd; border-radius: 2px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: #1a56db; border-radius: 2px; transition: width 0.3s; }
+  .scene { perspective: 1200px; width: 100%; height: 290px; cursor: pointer; margin-bottom: 1rem; }
+  .flipper { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); }
+  .flipper.flipped { transform: rotateY(180deg); }
+  .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border: 1px solid #ddd; border-radius: 16px; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; overflow: hidden; }
+  .face.back { transform: rotateY(180deg); }
+  .card-category { font-size: 11px; letter-spacing: 0.08em; color: #999; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .card-front-main { font-size: 48px; line-height: 1.2; color: #1a1a1a; text-align: center; }
+  .card-front-hint { font-size: 13px; color: #aaa; margin-top: 0.5rem; text-align: center; }
+  .card-back-kana { font-size: 28px; color: #1a1a1a; text-align: center; margin-bottom: 0.5rem; }
+  .card-back-english { font-size: 16px; color: #1a1a1a; font-weight: 500; text-align: center; }
+  .card-back-note { font-size: 12px; color: #aaa; margin-top: 0.6rem; text-align: center; font-style: italic; max-width: 300px; line-height: 1.5; }
+  .flip-hint { font-size: 12px; color: #aaa; text-align: center; margin-bottom: 1rem; }
+  .srs-bar { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; align-items: center; justify-content: center; }
+  .srs-btn { padding: 8px 20px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; cursor: pointer; background: #fff; color: #1a1a1a; font-family: inherit; transition: all 0.15s; display: none; }
+  .srs-btn.visible { display: inline-block; }
+  .srs-btn:active { transform: scale(0.97); }
+  .srs-btn.again { color: #c0392b; border-color: #e8a09a; }
+  .srs-btn.again:hover { background: #fdf0ef; }
+  .srs-btn.hard { color: #b7760d; border-color: #f0c97a; }
+  .srs-btn.hard:hover { background: #fef8ec; }
+  .srs-btn.good { color: #1a7a4a; border-color: #7ed4a6; }
+  .srs-btn.good:hover { background: #edfaf3; }
+  .srs-btn.easy { color: #1a56db; border-color: #92b4f4; }
+  .srs-btn.easy:hover { background: #eef2fd; }
+  .actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .action-btn { padding: 6px 14px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; cursor: pointer; background: #fff; color: #555; font-family: inherit; transition: all 0.15s; }
+  .action-btn:hover { background: #eee; }
+  .action-btn.danger { color: #c0392b; border-color: #e8a09a; }
+  .action-btn.danger:hover { background: #fdf0ef; }
+  .done-screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 290px; text-align: center; gap: 0.75rem; }
+  .done-screen.visible { display: flex; }
+  .done-label { font-size: 18px; font-weight: 600; }
+  .done-sub { font-size: 14px; color: #666; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #1c1c1e; color: #f0f0f0; }
+    .tab { background: #2c2c2e; border-color: #444; color: #aaa; }
+    .tab.active { background: #1a56db; color: #fff; border-color: transparent; }
+    .tab:hover:not(.active) { background: #3a3a3c; }
+    .stat-pill { background: #2c2c2e; color: #aaa; }
+    .stat-pill span { color: #f0f0f0; }
+    .progress-bar-wrap { background: #3a3a3c; }
+    .face { background: #2c2c2e; border-color: #444; }
+    .card-front-main, .card-back-kana, .card-back-english, h1 { color: #f0f0f0; }
+    .srs-btn, .action-btn { background: #2c2c2e; border-color: #444; color: #f0f0f0; }
+    .done-label { color: #f0f0f0; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <h1>🇯🇵 Japan Flashcards</h1>
+  <div class="tab-bar" id="tabs"></div>
+  <div class="stats-row" id="stats-row"></div>
+  <div class="progress-row">
+    <span class="progress-label" id="prog-label">0 / 0</span>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+  <div class="scene" id="scene" onclick="handleFlip()">
+    <div class="flipper" id="flipper">
+      <div class="face front">
+        <span class="card-category" id="front-cat"></span>
+        <div class="card-front-main" id="front-main"></div>
+        <div class="card-front-hint" id="front-hint"></div>
+      </div>
+      <div class="face back">
+        <span class="card-category" id="back-cat"></span>
+        <div class="card-back-kana" id="back-kana"></div>
+        <div class="card-back-english" id="back-english"></div>
+        <div class="card-back-note" id="back-note"></div>
+      </div>
+    </div>
+  </div>
+  <div class="done-screen" id="done-screen">
+    <div class="done-label">Session complete!</div>
+    <div class="done-sub" id="done-sub"></div>
+    <button class="action-btn" onclick="resetDeck()" style="margin-top:0.5rem">Study again</button>
+  </div>
+  <p class="flip-hint" id="flip-hint">Tap card to reveal</p>
+  <div class="srs-bar" id="srs-bar">
+    <button class="srs-btn again" onclick="rate(1)">Again</button>
+    <button class="srs-btn hard" onclick="rate(2)">Hard</button>
+    <button class="srs-btn good" onclick="rate(3)">Good</button>
+    <button class="srs-btn easy" onclick="rate(4)">Easy</button>
+  </div>
+  <div class="actions">
+    <button class="action-btn" onclick="skipCard()">Skip</button>
+    <button class="action-btn danger" onclick="deleteCard()">Remove card</button>
+    <button class="action-btn" onclick="resetDeck()">Restart session</button>
+  </div>
+</div>
+<script>
+const ALL_CARDS = [
+  {id:1,cat:"menu",front:"魚",kana:"さかな",english:"Fish",note:"On menus often in hiragana or katakana",frontHint:""},
+  {id:2,cat:"menu",front:"肉",kana:"にく",english:"Meat (general)",note:"Qualified by: 牛 beef, 豚 pork, 鶏 chicken",frontHint:""},
+  {id:3,cat:"menu",front:"牛肉",kana:"ぎゅうにく",english:"Beef",note:"",frontHint:""},
+  {id:4,cat:"menu",front:"豚肉",kana:"ぶたにく",english:"Pork",note:"",frontHint:""},
+  {id:5,cat:"menu",front:"鶏肉",kana:"とりにく",english:"Chicken",note:"",frontHint:""},
+  {id:6,cat:"menu",front:"海老",kana:"えび",english:"Shrimp / prawn",note:"",frontHint:""},
+  {id:7,cat:"menu",front:"イカ",kana:"いか",english:"Squid",note:"Usually in katakana on menus",frontHint:""},
+  {id:8,cat:"menu",front:"蛸",kana:"たこ",english:"Octopus",note:"たこ焼き = octopus balls, Osaka staple",frontHint:""},
+  {id:9,cat:"menu",front:"卵",kana:"たまご",english:"Egg",note:"",frontHint:""},
+  {id:10,cat:"menu",front:"豆腐",kana:"とうふ",english:"Tofu",note:"",frontHint:""},
+  {id:11,cat:"menu",front:"鮭",kana:"さけ",english:"Salmon",note:"Also written サーモン on menus",frontHint:""},
+  {id:12,cat:"menu",front:"鮪",kana:"まぐろ",english:"Tuna",note:"Most popular sushi topping",frontHint:""},
+  {id:13,cat:"menu",front:"鯖",kana:"さば",english:"Mackerel",note:"Kyushu specialty — look for 焼き鯖",frontHint:""},
+  {id:14,cat:"menu",front:"ホタテ",kana:"ほたて",english:"Scallop",note:"",frontHint:""},
+  {id:15,cat:"menu",front:"アサリ",kana:"あさり",english:"Clams",note:"",frontHint:""},
+  {id:16,cat:"menu",front:"カニ",kana:"かに",english:"Crab",note:"",frontHint:""},
+  {id:17,cat:"menu",front:"野菜",kana:"やさい",english:"Vegetables",note:"",frontHint:""},
+  {id:18,cat:"menu",front:"大根",kana:"だいこん",english:"Daikon radish",note:"",frontHint:""},
+  {id:19,cat:"menu",front:"ネギ",kana:"ねぎ",english:"Green onion / leek",note:"",frontHint:""},
+  {id:20,cat:"menu",front:"玉ねぎ",kana:"たまねぎ",english:"Onion",note:"",frontHint:""},
+  {id:21,cat:"menu",front:"キャベツ",kana:"きゃべつ",english:"Cabbage",note:"In okonomiyaki, takoyaki, yakisoba",frontHint:""},
+  {id:22,cat:"menu",front:"ごぼう",kana:"ごぼう",english:"Burdock root",note:"Earthy flavor, common in Kyushu dishes",frontHint:""},
+  {id:23,cat:"menu",front:"きのこ",kana:"きのこ",english:"Mushrooms (general)",note:"",frontHint:""},
+  {id:24,cat:"menu",front:"しいたけ",kana:"しいたけ",english:"Shiitake mushroom",note:"",frontHint:""},
+  {id:25,cat:"menu",front:"焼き",kana:"やき",english:"Grilled / fried / broiled",note:"e.g. 焼き鳥, 焼き魚",frontHint:""},
+  {id:26,cat:"menu",front:"揚げ",kana:"あげ",english:"Deep-fried",note:"唐揚げ = Japanese fried chicken",frontHint:""},
+  {id:27,cat:"menu",front:"蒸し",kana:"むし",english:"Steamed",note:"",frontHint:""},
+  {id:28,cat:"menu",front:"煮込み",kana:"にこみ",english:"Simmered / stewed",note:"",frontHint:""},
+  {id:29,cat:"menu",front:"生",kana:"なま",english:"Raw / fresh",note:"Also: 生ビール = draft beer",frontHint:""},
+  {id:30,cat:"menu",front:"炒め",kana:"いため",english:"Stir-fried",note:"",frontHint:""},
+  {id:31,cat:"menu",front:"塩焼き",kana:"しおやき",english:"Salt-grilled",note:"Classic preparation for fish",frontHint:""},
+  {id:32,cat:"menu",front:"照り焼き",kana:"てりやき",english:"Teriyaki (sweet soy glaze)",note:"",frontHint:""},
+  {id:33,cat:"menu",front:"天ぷら",kana:"てんぷら",english:"Battered and deep-fried",note:"Light batter; different from 揚げ",frontHint:""},
+  {id:34,cat:"menu",front:"鍋",kana:"なべ",english:"Hot pot",note:"Common in Kyushu; もつ鍋 = offal hot pot",frontHint:""},
+  {id:35,cat:"menu",front:"定食",kana:"ていしょく",english:"Set meal",note:"Main + rice + miso + pickles — great value",frontHint:""},
+  {id:36,cat:"menu",front:"丼",kana:"どんぶり",english:"Rice bowl dish",note:"牛丼, 天丼, 親子丼...",frontHint:""},
+  {id:37,cat:"menu",front:"ラーメン",kana:"らーめん",english:"Ramen noodle soup",note:"とんこつラーメン is the Kyushu specialty",frontHint:""},
+  {id:38,cat:"menu",front:"うどん",kana:"うどん",english:"Thick wheat noodles",note:"",frontHint:""},
+  {id:39,cat:"menu",front:"そば",kana:"そば",english:"Buckwheat noodles",note:"",frontHint:""},
+  {id:40,cat:"menu",front:"お好み焼き",kana:"おこのみやき",english:"Savory pancake",note:"Osaka's defining street food",frontHint:""},
+  {id:41,cat:"menu",front:"焼きそば",kana:"やきそば",english:"Stir-fried noodles",note:"Common festival / street food",frontHint:""},
+  {id:42,cat:"menu",front:"串",kana:"くし",english:"Skewer",note:"くしかつ = deep-fried skewers, Osaka staple",frontHint:""},
+  {id:43,cat:"menu",front:"刺身",kana:"さしみ",english:"Sliced raw fish",note:"",frontHint:""},
+  {id:44,cat:"menu",front:"寿司",kana:"すし",english:"Sushi",note:"",frontHint:""},
+  {id:45,cat:"menu",front:"親子丼",kana:"おやこどん",english:"Chicken & egg rice bowl",note:"Literally 'parent and child bowl'",frontHint:""},
+  {id:46,cat:"menu",front:"カレー",kana:"かれー",english:"Japanese curry",note:"Milder and thicker than Indian curry",frontHint:""},
+  {id:47,cat:"menu",front:"唐揚げ",kana:"からあげ",english:"Japanese fried chicken",note:"One of the most beloved izakaya dishes",frontHint:""},
+  {id:48,cat:"menu",front:"餃子",kana:"ぎょうざ",english:"Dumplings / pot stickers",note:"Pan-fried (やきぎょうざ) or boiled (みずぎょうざ)",frontHint:""},
+  {id:49,cat:"menu",front:"おにぎり",kana:"おにぎり",english:"Rice ball",note:"Essential convenience store food",frontHint:""},
+  {id:50,cat:"menu",front:"みそ汁",kana:"みそしる",english:"Miso soup",note:"Comes with most ていしょく sets",frontHint:""},
+  {id:51,cat:"menu",front:"豚骨",kana:"とんこつ",english:"Pork bone broth",note:"とんこつラーメン = rich pork bone soup, Fukuoka specialty",frontHint:""},
+  {id:52,cat:"menu",front:"醤油",kana:"しょうゆ",english:"Soy sauce",note:"Also a ramen broth style",frontHint:""},
+  {id:53,cat:"menu",front:"塩",kana:"しお",english:"Salt",note:"Also a ramen broth style — lightest flavor",frontHint:""},
+  {id:54,cat:"menu",front:"味噌",kana:"みそ",english:"Miso (fermented soybean paste)",note:"",frontHint:""},
+  {id:55,cat:"menu",front:"ちゃんぽん",kana:"ちゃんぽん",english:"Nagasaki noodle soup with vegetables",note:"Kyushu / Nagasaki specialty",frontHint:""},
+  {id:56,cat:"menu",front:"もつ鍋",kana:"もつなべ",english:"Offal hot pot",note:"Fukuoka soul food — rich, savory",frontHint:""},
+  {id:57,cat:"menu",front:"ビール",kana:"びーる",english:"Beer",note:"生ビール = draft beer",frontHint:""},
+  {id:58,cat:"menu",front:"日本酒",kana:"にほんしゅ",english:"Sake / Japanese rice wine",note:"",frontHint:""},
+  {id:59,cat:"menu",front:"焼酎",kana:"しょうちゅう",english:"Shōchū (distilled spirit)",note:"Kyushu specialty — 芋 (sweet potato) or 麦 (barley)",frontHint:""},
+  {id:60,cat:"menu",front:"芋焼酎",kana:"いもしょうちゅう",english:"Sweet potato shōchū",note:"Signature spirit of Kagoshima / Kyushu",frontHint:""},
+  {id:61,cat:"menu",front:"お茶",kana:"おちゃ",english:"Tea (usually green tea)",note:"Usually free / complimentary",frontHint:""},
+  {id:62,cat:"menu",front:"水",kana:"みず",english:"Water",note:"お水 is more polite",frontHint:""},
+  {id:63,cat:"menu",front:"ハイボール",kana:"はいぼーる",english:"Highball (whisky + soda)",note:"Very popular in izakayas",frontHint:""},
+  {id:64,cat:"menu",front:"レモンサワー",kana:"れもんさわー",english:"Lemon sour (shōchū + lemon + soda)",note:"Affordable, refreshing izakaya staple",frontHint:""},
+  {id:65,cat:"menu",front:"辛い",kana:"からい",english:"Spicy",note:"Important if you have heat sensitivity",frontHint:""},
+  {id:66,cat:"menu",front:"甘い",kana:"あまい",english:"Sweet",note:"",frontHint:""},
+  {id:67,cat:"menu",front:"辛口",kana:"からくち",english:"Dry (sake) / spicy (food)",note:"On sake menus: dry style",frontHint:""},
+  {id:68,cat:"menu",front:"甘口",kana:"あまくち",english:"Sweet (sake or food)",note:"",frontHint:""},
+  {id:69,cat:"menu",front:"あっさり",kana:"あっさり",english:"Light / mild / not heavy",note:"Opposite of こってり",frontHint:""},
+  {id:70,cat:"menu",front:"こってり",kana:"こってり",english:"Rich / heavy / thick (flavor)",note:"Ramen shops often ask this preference",frontHint:""},
+  {id:71,cat:"menu",front:"本日のおすすめ",kana:"ほんじつのおすすめ",english:"Today's recommendation / special",note:"",frontHint:""},
+  {id:72,cat:"menu",front:"数量限定",kana:"すうりょうげんてい",english:"Limited quantity available",note:"",frontHint:""},
+  {id:73,cat:"menu",front:"無料",kana:"むりょう",english:"Free of charge",note:"",frontHint:""},
+  {id:74,cat:"menu",front:"食べ放題",kana:"たべほうだい",english:"All-you-can-eat",note:"",frontHint:""},
+  {id:75,cat:"menu",front:"飲み放題",kana:"のみほうだい",english:"All-you-can-drink",note:"Common izakaya course option",frontHint:""},
+  {id:76,cat:"menu",front:"一人前",kana:"いちにんまえ",english:"One serving / portion for one",note:"",frontHint:""},
+  {id:77,cat:"menu",front:"アレルギー表示",kana:"あれるぎーひょうじ",english:"Allergen information",note:"",frontHint:""},
+  {id:78,cat:"menu",front:"追加料金",kana:"ついかりょうきん",english:"Additional charge",note:"",frontHint:""},
+  {id:79,cat:"menu",front:"ハーフサイズ",kana:"はーふさいず",english:"Half size",note:"",frontHint:""},
+  {id:80,cat:"menu",front:"濃い",kana:"こい",english:"Rich / strong / thick (flavor)",note:"",frontHint:""},
+  {id:81,cat:"hear",front:"いらっしゃいませ",kana:"いらっしゃいませ",english:"Welcome! (entering any shop)",note:"No response needed — just nod",frontHint:"entering any shop"},
+  {id:82,cat:"hear",front:"何名様ですか？",kana:"なんめいさまですか？",english:"How many in your party?",note:"Answer: ひとり / ふたり / さんにん...",frontHint:"restaurant"},
+  {id:83,cat:"hear",front:"こちらへどうぞ",kana:"こちらへどうぞ",english:"Please come this way",note:"Follow the staff",frontHint:"restaurant"},
+  {id:84,cat:"hear",front:"ご注文はお決まりですか？",kana:"ごちゅうもんはおきまりですか？",english:"Are you ready to order?",note:"Say もうすこしまってください for more time",frontHint:"restaurant"},
+  {id:85,cat:"hear",front:"こちらでお召し上がりですか？",kana:"こちらでおめしあがりですか？",english:"For here or to go?",note:"Honorific of 食べる (to eat)",frontHint:"restaurant / cafe"},
+  {id:86,cat:"hear",front:"お持ち帰りですか？",kana:"おもちかえりですか？",english:"Is it to take away?",note:"",frontHint:"restaurant / cafe"},
+  {id:87,cat:"hear",front:"少々お待ちください",kana:"しょうしょうおまちください",english:"Please wait a moment",note:"Very common from staff",frontHint:"restaurant / store"},
+  {id:88,cat:"hear",front:"ラストオーダーです",kana:"らすとおーだーです",english:"Last orders — kitchen closing soon",note:"",frontHint:"restaurant"},
+  {id:89,cat:"hear",front:"お会計は別々ですか？",kana:"おかいけいはべつべつですか？",english:"Separate bills?",note:"",frontHint:"restaurant"},
+  {id:90,cat:"hear",front:"お箸でよろしいですか？",kana:"おはしでよろしいですか？",english:"Chopsticks okay for you?",note:"Say フォークをください to request a fork",frontHint:"restaurant"},
+  {id:91,cat:"hear",front:"ご一緒でよろしいですか？",kana:"ごいっしょでよろしいですか？",english:"May we seat you with others?",note:"Asked at busy counters",frontHint:"restaurant"},
+  {id:92,cat:"hear",front:"辛さはどうしますか？",kana:"からさはどうしますか？",english:"How spicy would you like it?",note:"Answer: ふつう = normal, からめ = spicier",frontHint:"restaurant"},
+  {id:93,cat:"hear",front:"トッピングはいかがですか？",kana:"とっぴんぐはいかがですか？",english:"Would you like any toppings?",note:"",frontHint:"restaurant"},
+  {id:94,cat:"hear",front:"袋はご入用ですか？",kana:"ふくろはごいりようですか？",english:"Do you need a bag?",note:"Say ふようです to decline",frontHint:"convenience store / shop"},
+  {id:95,cat:"hear",front:"ポイントカードはお持ちですか？",kana:"ぽいんとかーどはおもちですか？",english:"Do you have a points card?",note:"もっていません — I don't have one",frontHint:"store"},
+  {id:96,cat:"hear",front:"お支払い方法は？",kana:"おしはらいほうほうは？",english:"How would you like to pay?",note:"げんきん = cash; カード = card",frontHint:"store"},
+  {id:97,cat:"hear",front:"温めますか？",kana:"あたためますか？",english:"Shall I warm it up?",note:"Very common at コンビニ",frontHint:"convenience store"},
+  {id:98,cat:"hear",front:"レシートはご入用ですか？",kana:"れしーとはごいりようですか？",english:"Do you need a receipt?",note:"",frontHint:"store"},
+  {id:99,cat:"hear",front:"ありがとうございました",kana:"ありがとうございました",english:"Thank you very much (as you leave)",note:"Past tense — transaction complete",frontHint:"leaving any shop"},
+  {id:100,cat:"hear",front:"またお越しください",kana:"またおこしください",english:"Please come again",note:"",frontHint:"leaving a shop"},
+  {id:101,cat:"hear",front:"お待たせしました",kana:"おまたせしました",english:"Sorry to have kept you waiting",note:"",frontHint:"restaurant / store"},
+  {id:102,cat:"hear",front:"こちらでよろしいですか？",kana:"こちらでよろしいですか？",english:"Is this one okay / correct?",note:"Confirming your order or item",frontHint:"store / restaurant"},
+  {id:103,cat:"hear",front:"本日は定休日です",kana:"ほんじつはていきゅうびです",english:"Closed today (regular holiday)",note:"",frontHint:"sign on a shop door"},
+  {id:104,cat:"hear",front:"只今満席です",kana:"ただいままんせきです",english:"We are fully seated right now",note:"",frontHint:"restaurant"},
+  {id:105,cat:"hear",front:"お釣りは〇〇円です",kana:"おつりは〇〇えんです",english:"Your change is ○○ yen",note:"",frontHint:"store — receiving change"},
+  {id:106,cat:"say",front:"Table for one",kana:"一人です",english:"ひとりです",note:""},
+  {id:107,cat:"say",front:"Table for two",kana:"二人です",english:"ふたりです",note:""},
+  {id:108,cat:"say",front:"Table for three",kana:"三人です",english:"さんにんです",note:""},
+  {id:109,cat:"say",front:"I'll have this (pointing at menu)",kana:"これをください",english:"これをください",note:"Works for ordering or buying"},
+  {id:110,cat:"say",front:"One more of the same",kana:"同じものをもう一つください",english:"おなじものをもうひとつください",note:""},
+  {id:111,cat:"say",front:"What do you recommend?",kana:"おすすめは何ですか？",english:"おすすめはなんですか？",note:""},
+  {id:112,cat:"say",front:"Check / bill, please",kana:"お会計をお願いします",english:"おかいけいをおねがいします",note:"Or just catch their eye and say すみません"},
+  {id:113,cat:"say",front:"To go, please",kana:"持ち帰りでお願いします",english:"もちかえりでおねがいします",note:""},
+  {id:114,cat:"say",front:"For here, please",kana:"こちらで食べます",english:"こちらでたべます",note:""},
+  {id:115,cat:"say",front:"Need more time to order",kana:"もう少し待ってください",english:"もうすこしまってください",note:""},
+  {id:116,cat:"say",front:"Is this dish spicy?",kana:"これは辛いですか？",english:"これはからいですか？",note:""},
+  {id:117,cat:"say",front:"Please don't make it spicy",kana:"辛くしないでください",english:"からくしないでください",note:""},
+  {id:118,cat:"say",front:"I have a food allergy",kana:"食物アレルギーがあります",english:"しょくもつあれるぎーがあります",note:"Follow with the specific allergen"},
+  {id:119,cat:"say",front:"I cannot eat ___",kana:"〜は食べられません",english:"〜はたべられません",note:"Fill in: こむぎ = wheat, にゅうせいひん = dairy"},
+  {id:120,cat:"say",front:"Said before eating",kana:"いただきます",english:"いただきます",note:"Always say this — shows respect"},
+  {id:121,cat:"say",front:"Said after eating",kana:"ごちそうさまでした",english:"ごちそうさまでした",note:"Say to the staff as you leave"},
+  {id:122,cat:"say",front:"Do you have an English menu?",kana:"英語のメニューはありますか？",english:"えいごのめにゅーはありますか？",note:""},
+  {id:123,cat:"say",front:"May I sit here?",kana:"ここに座ってもいいですか？",english:"ここにすわってもいいですか？",note:""},
+  {id:124,cat:"say",front:"How much is this?",kana:"これはいくらですか？",english:"これはいくらですか？",note:""},
+  {id:125,cat:"say",front:"May I try this on?",kana:"試着できますか？",english:"しちゃくできますか？",note:""},
+  {id:126,cat:"say",front:"Do you have another color?",kana:"別の色はありますか？",english:"べつのいろはありますか？",note:""},
+  {id:127,cat:"say",front:"Do you have a larger / smaller size?",kana:"もっと大きい／小さいサイズはありますか？",english:"もっとおおきい／ちいさいさいずはありますか？",note:""},
+  {id:128,cat:"say",front:"I don't need a bag",kana:"袋はいりません",english:"ふくろはいりません",note:""},
+  {id:129,cat:"say",front:"I'll pay by card",kana:"カードで払います",english:"かーどではらいます",note:""},
+  {id:130,cat:"say",front:"I'll pay in cash",kana:"現金で払います",english:"げんきんではらいます",note:""},
+  {id:131,cat:"say",front:"Can I use a Suica / IC card?",kana:"交通系カードは使えますか？",english:"こうつうけいかーどはつかえますか？",note:"Suica / ICOCA accepted almost everywhere"},
+  {id:132,cat:"say",front:"I'll take this one",kana:"これにします",english:"これにします",note:"More natural than これをください in a shop"},
+  {id:133,cat:"say",front:"I'm just browsing",kana:"見ているだけです",english:"みているだけです",note:""},
+  {id:134,cat:"say",front:"Excuse me (to get attention)",kana:"すみません",english:"すみません",note:"Most useful word in Japan"},
+  {id:135,cat:"say",front:"Where is ___?",kana:"〜はどこですか？",english:"〜はどこですか？",note:"Fill in: トイレ, えき (station), でぐち (exit)"},
+  {id:136,cat:"say",front:"May I take a photo?",kana:"写真を撮ってもいいですか？",english:"しゃしんをとってもいいですか？",note:""},
+  {id:137,cat:"say",front:"Thank you very much",kana:"ありがとうございます",english:"ありがとうございます",note:""},
+  {id:138,cat:"say",front:"I don't understand",kana:"わかりません",english:"わかりません",note:""},
+  {id:139,cat:"say",front:"Please say it slowly",kana:"ゆっくり言ってください",english:"ゆっくりいってください",note:""},
+  {id:140,cat:"say",front:"Please write it down",kana:"書いてください",english:"かいてください",note:""},
+  {id:141,cat:"say",front:"Can you speak English?",kana:"英語を話せますか？",english:"えいごをはなせますか？",note:""},
+  {id:142,cat:"say",front:"I'm lost",kana:"道に迷いました",english:"みちにまよいました",note:""},
+  {id:143,cat:"say",front:"Please call an ambulance",kana:"救急車を呼んでください",english:"きゅうきゅうしゃをよんでください",note:"Emergency — important to know"},
+  {id:144,cat:"polite",front:"ください vs お願いします",kana:"ください／おねがいします",english:"Please give me / I humbly request",note:"ください = give me X; おねがいします = please do this (more formal)"},
+  {id:145,cat:"polite",front:"〜てください",kana:"〜てください",english:"Please do ___ (direct request)",note:"e.g. まってください = please wait. Polite but direct."},
+  {id:146,cat:"polite",front:"〜ていただけますか？",kana:"〜ていただけますか？",english:"Could you please do ___? (soft/humble)",note:"Much softer than てください — use this to be extra polite"},
+  {id:147,cat:"polite",front:"〜てもらえますか？",kana:"〜てもらえますか？",english:"Could you do ___ for me? (conversational)",note:"Slightly less formal than いただけますか"},
+  {id:148,cat:"polite",front:"よろしいですか？",kana:"よろしいですか？",english:"Is that alright? (polite version of いいですか)",note:"Staff use this constantly"},
+  {id:149,cat:"polite",front:"よろしいでしょうか？",kana:"よろしいでしょうか？",english:"Would that be alright? (very polite)",note:"Even more deferential than よろしいですか"},
+  {id:150,cat:"polite",front:"いかがですか？",kana:"いかがですか？",english:"How about it? / How is it? (honorific)",note:"Polite version of どうですか — staff use when offering something"},
+  {id:151,cat:"polite",front:"どうぞ",kana:"どうぞ",english:"Please go ahead / Here you are",note:"Offering something or permitting action — very versatile"},
+  {id:152,cat:"polite",front:"失礼します",kana:"しつれいします",english:"Excuse me / I'm being rude (formal)",note:"Used entering someone's space or interrupting"},
+  {id:153,cat:"polite",front:"失礼しました",kana:"しつれいしました",english:"Sorry to have disturbed you (after the fact)",note:"Past tense — after bumping into someone etc."},
+  {id:154,cat:"polite",front:"申し訳ございません",kana:"もうしわけございません",english:"I sincerely apologize (very formal)",note:"The strongest apology — staff use this for serious issues"},
+  {id:155,cat:"polite",front:"お待たせしました",kana:"おまたせしました",english:"Sorry to have kept you waiting",note:"Humble form — staff say this after a delay"},
+  {id:156,cat:"polite",front:"ございます",kana:"ございます",english:"There is / we have (very polite)",note:"Polite version of あります. e.g. ありがとうございます"},
+  {id:157,cat:"polite",front:"いらっしゃいます",kana:"いらっしゃいます",english:"Is / are (honorific for いる)",note:"いらっしゃいませ = welcome comes from this"},
+  {id:158,cat:"polite",front:"お〜 prefix",kana:"お〜（ていねいなせっとうご）",english:"Honorific prefix for native Japanese words",note:"おみず, おちゃ, おかいけい — adding お sounds respectful"},
+  {id:159,cat:"polite",front:"ご〜 prefix",kana:"ご〜（ていねいなせっとうご）",english:"Honorific prefix for Sino-Japanese words",note:"ごちゅうもん, ごかぞく — ご is used with on'yomi words"},
+  {id:160,cat:"polite",front:"〜様",kana:"〜さま",english:"Honorific title (higher than さん)",note:"Staff: おきゃくさま = honored customer"},
+  {id:161,cat:"polite",front:"丁寧語",kana:"ていねいご",english:"Polite language (〜ます / 〜です forms)",note:"The baseline level of formal Japanese — use this as default"},
+  {id:162,cat:"polite",front:"尊敬語",kana:"そんけいご",english:"Respectful language (raising the other person)",note:"You'll hear from staff: いらっしゃる, おっしゃる, なさる"},
+  {id:163,cat:"polite",front:"謙譲語",kana:"けんじょうご",english:"Humble language (lowering yourself)",note:"Staff use about themselves: いただく, もうす, まいる"},
+  {id:164,cat:"polite",front:"食べる → 召し上がる",kana:"たべる → めしあがる",english:"To eat → honorific 'to eat'",note:"Staff: めしあがりますか？ You respond: たべます"},
+  {id:165,cat:"polite",front:"言う → おっしゃる",kana:"いう → おっしゃる",english:"To say → honorific 'to say'",note:"おっしゃるとおりです = exactly as you say"},
+  {id:166,cat:"polite",front:"もらう → いただく",kana:"もらう → いただく",english:"To receive → humble 'to receive'",note:"いただきます before meals comes from this verb"},
+  {id:167,cat:"polite",front:"する → なさる",kana:"する → なさる",english:"To do → honorific 'to do'",note:"どうなさいますか = what would you like to do?"},
+  {id:168,cat:"polite",front:"いる → いらっしゃる",kana:"いる → いらっしゃる",english:"To be → honorific form",note:"いらっしゃいませ comes from this verb"},
+  {id:169,cat:"polite",front:"〜でよろしいですか？",kana:"〜でよろしいですか？",english:"Is ___ okay? (polite confirmation)",note:"e.g. げんきんでよろしいですか？ = is cash okay?"},
+  {id:170,cat:"polite",front:"恐れ入りますが",kana:"おそれいりますが",english:"I'm sorry to trouble you, but… (polite opener)",note:"Use before making a request — shows humility"},
+  {id:171,cat:"polite",front:"〜はございますか？",kana:"〜はございますか？",english:"Do you have ___? (polite)",note:"Polite equivalent of 〜はありますか — used by staff"},
+  {id:172,cat:"polite",front:"〜をお願いできますか？",kana:"〜をおねがいできますか？",english:"Could I ask for ___? (soft request)",note:"Softer than ください — good default for asking staff"},
+  {id:173,cat:"polite",front:"かしこまりました",kana:"かしこまりました",english:"Certainly / understood (very formal)",note:"Higher formality than わかりました — staff use this"},
+  {id:174,cat:"polite",front:"承知しました",kana:"しょうちしました",english:"Understood (formal)",note:"More formal than わかりました, slightly less than かしこまりました"},
+  {id:175,cat:"polite",front:"お手数ですが",kana:"おてすうですが",english:"Sorry for the trouble, but…",note:"Polite opener before asking something inconvenient"},
+  {id:176,cat:"polite",front:"なるほど",kana:"なるほど",english:"I see / I understand (conversational)",note:"Useful backchanneling — shows you're following along"},
+  {id:177,cat:"polite",front:"そうですか",kana:"そうですか",english:"Is that so? / I see (neutral acknowledgment)",note:"Very frequently used in conversation"},
+  {id:178,cat:"polite",front:"〜ませんか？",kana:"〜ませんか？",english:"Won't you ___? (soft invitation)",note:"e.g. いっしょにたべませんか？ = won't you eat with me?"},
+  {id:179,cat:"polite",front:"〜ましょうか？",kana:"〜ましょうか？",english:"Shall I ___? (offering to help)",note:"e.g. もちましょうか？ = shall I carry that for you?"},
+  {id:180,cat:"polite",front:"〜と申します",kana:"〜ともうします",english:"My name is ___ (humble self-introduction)",note:"Humble form of 〜といいます"},
+  {id:181,cat:"signs",front:"入口",kana:"いりぐち",english:"Entrance",note:""},
+  {id:182,cat:"signs",front:"出口",kana:"でぐち",english:"Exit",note:""},
+  {id:183,cat:"signs",front:"非常口",kana:"ひじょうぐち",english:"Emergency exit",note:""},
+  {id:184,cat:"signs",front:"トイレ",kana:"といれ",english:"Restroom / toilet",note:""},
+  {id:185,cat:"signs",front:"男性 / 女性",kana:"だんせい／じょせい",english:"Male / Female (restroom signs)",note:"Or 男 (おとこ) / 女 (おんな)"},
+  {id:186,cat:"signs",front:"営業中",kana:"えいぎょうちゅう",english:"Open / in business",note:""},
+  {id:187,cat:"signs",front:"準備中",kana:"じゅんびちゅう",english:"Preparing / not yet open",note:""},
+  {id:188,cat:"signs",front:"定休日",kana:"ていきゅうび",english:"Regular closing day",note:""},
+  {id:189,cat:"signs",front:"禁煙",kana:"きんえん",english:"No smoking",note:""},
+  {id:190,cat:"signs",front:"撮影禁止",kana:"さつえいきんし",english:"Photography prohibited",note:""},
+  {id:191,cat:"signs",front:"会計",kana:"かいけい",english:"Cashier / bill",note:"Look for this sign to pay"},
+  {id:192,cat:"signs",front:"本日休業",kana:"ほんじつきゅうぎょう",english:"Closed today",note:""},
+  {id:193,cat:"signs",front:"売り切れ",kana:"うりきれ",english:"Sold out",note:""},
+  {id:194,cat:"signs",front:"お手洗い",kana:"おてあらい",english:"Restroom (polite term)",note:"More commonly seen in formal places than トイレ"},
+  {id:195,cat:"signs",front:"精算機",kana:"せいさんき",english:"Ticket / payment machine",note:"For trains and some restaurants"},
+  {id:196,cat:"signs",front:"食券",kana:"しょっけん",english:"Meal ticket",note:"Buy your ticket from the machine at the entrance"},
+  {id:197,cat:"signs",front:"受付",kana:"うけつけ",english:"Reception / front desk",note:""},
+  {id:198,cat:"signs",front:"両替",kana:"りょうがえ",english:"Currency exchange / change machine",note:""},
+  {id:199,cat:"signs",front:"空席あり",kana:"くうせきあり",english:"Seats available",note:""},
+  {id:200,cat:"signs",front:"順番待ち",kana:"じゅんばんまち",english:"Waiting in line / queue",note:""},
+];
+
+const CATS = [
+  {key:"all",label:"All"},
+  {key:"menu",label:"Menus"},
+  {key:"hear",label:"You'll hear"},
+  {key:"say",label:"You'll say"},
+  {key:"polite",label:"Polite language"},
+  {key:"signs",label:"Signs"},
+];
+
+const STORE_KEY = 'jf3_deck';
+const DEL_KEY = 'jf3_deleted';
+
+let saved = null;
+try { saved = JSON.parse(localStorage.getItem(STORE_KEY)); } catch(e){}
+let deletedIds = [];
+try { deletedIds = JSON.parse(localStorage.getItem(DEL_KEY)) || []; } catch(e){}
+
+let deck = ALL_CARDS.map(c => {
+  const s = saved ? saved.find(x => x.id === c.id) : null;
+  return s ? {...c, interval:s.interval||1, easeFactor:s.easeFactor||2.5, due:s.due||0, reps:s.reps||0, deleted:deletedIds.includes(c.id)}
+           : {...c, interval:1, easeFactor:2.5, due:0, reps:0, deleted:deletedIds.includes(c.id)};
+});
+
+let activeTab = 'all', queue = [], queueIdx = 0, isFlipped = false, pendingNext = false;
+let sessionStats = {again:0,hard:0,good:0,easy:0};
+
+function shuffle(arr) {
+  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+  return arr;
+}
+function save() {
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify(deck.map(c=>({id:c.id,interval:c.interval,easeFactor:c.easeFactor,due:c.due,reps:c.reps}))));
+    localStorage.setItem(DEL_KEY, JSON.stringify(deletedIds));
+  } catch(e){}
+}
+function buildQueue() {
+  const now = Date.now();
+  const pool = deck.filter(c=>!c.deleted&&(activeTab==='all'||c.cat===activeTab));
+  const due = shuffle(pool.filter(c=>c.due<=now));
+  const notDue = shuffle(pool.filter(c=>c.due>now));
+  queue = [...due, ...notDue.slice(0,Math.max(0,30-due.length))];
+  if(!queue.length) queue = shuffle(pool.slice());
+  queueIdx = 0;
+  sessionStats = {again:0,hard:0,good:0,easy:0};
+}
+function currentCard(){return queue[queueIdx];}
+function renderTabs() {
+  document.getElementById('tabs').innerHTML = CATS.map(t=>{
+    const count = t.key==='all'?deck.filter(c=>!c.deleted).length:deck.filter(c=>!c.deleted&&c.cat===t.key).length;
+    return `<button class="tab${activeTab===t.key?' active':''}" onclick="switchTab('${t.key}')">${t.label} <small style="opacity:.65">${count}</small></button>`;
+  }).join('');
+}
+function renderStats() {
+  document.getElementById('stats-row').innerHTML=`<div class="stat-pill">Again <span>${sessionStats.again}</span></div><div class="stat-pill">Hard <span>${sessionStats.hard}</span></div><div class="stat-pill">Good <span>${sessionStats.good}</span></div><div class="stat-pill">Easy <span>${sessionStats.easy}</span></div>`;
+}
+function renderProgress() {
+  const done=Math.min(queueIdx,queue.length),total=queue.length;
+  document.getElementById('prog-label').textContent=done+' / '+total;
+  document.getElementById('prog-fill').style.width=(total?Math.round(done/total*100):0)+'%';
+}
+function populateCard(card) {
+  if(!card) return;
+  const isSay=card.cat==='say', isPolite=card.cat==='polite';
+  if(isSay) {
+    document.getElementById('front-cat').textContent='You want to say';
+    const fm=document.getElementById('front-main');
+    fm.textContent=card.front;
+    fm.style.fontSize=card.front.length>35?'15px':card.front.length>20?'18px':'22px';
+    document.getElementById('front-hint').textContent='';
+    document.getElementById('back-cat').textContent='In Japanese';
+    document.getElementById('back-kana').textContent=card.kana;
+    document.getElementById('back-english').textContent=card.english;
+    document.getElementById('back-note').textContent=card.note||'';
+  } else if(isPolite) {
+    document.getElementById('front-cat').textContent='Polite language';
+    const fm=document.getElementById('front-main');
+    fm.textContent=card.front;
+    fm.style.fontSize=card.front.length>10?'22px':'36px';
+    document.getElementById('front-hint').textContent='';
+    document.getElementById('back-cat').textContent='Reading & meaning';
+    document.getElementById('back-kana').textContent=card.kana;
+    document.getElementById('back-english').textContent=card.english;
+    document.getElementById('back-note').textContent=card.note||'';
+  } else {
+    const catLabel=card.cat==='menu'?'Menu reading':card.cat==='signs'?'Sign':"You'll hear";
+    document.getElementById('front-cat').textContent=catLabel;
+    const fm=document.getElementById('front-main');
+    fm.textContent=card.front;
+    fm.style.fontSize=card.front.length>10?'22px':card.front.length>5?'36px':'48px';
+    document.getElementById('front-hint').textContent=card.frontHint?'('+card.frontHint+')':'';
+    document.getElementById('back-cat').textContent='Reading & meaning';
+    document.getElementById('back-kana').textContent=card.kana;
+    document.getElementById('back-english').textContent=card.english;
+    document.getElementById('back-note').textContent=card.note||'';
+  }
+}
+function renderCard() {
+  const card=currentCard();
+  if(!card){showDone();return;}
+  document.getElementById('done-screen').classList.remove('visible');
+  document.getElementById('scene').style.display='';
+  document.getElementById('flip-hint').style.display='';
+  document.getElementById('srs-bar').style.display='';
+  const flipper=document.getElementById('flipper');
+  flipper.style.transition='none';
+  flipper.classList.remove('flipped');
+  flipper.offsetHeight;
+  flipper.style.transition='';
+  isFlipped=false; pendingNext=false;
+  populateCard(card);
+  document.querySelectorAll('.srs-btn').forEach(b=>b.classList.remove('visible'));
+  document.getElementById('flip-hint').textContent='Tap card to reveal';
+  renderProgress(); renderStats();
+}
+function handleFlip() {
+  if(!currentCard()||pendingNext) return;
+  isFlipped=!isFlipped;
+  document.getElementById('flipper').classList.toggle('flipped',isFlipped);
+  if(isFlipped){
+    document.getElementById('flip-hint').textContent='How well did you know it?';
+    document.querySelectorAll('.srs-btn').forEach(b=>b.classList.add('visible'));
+  } else {
+    document.getElementById('flip-hint').textContent='Tap card to reveal';
+    document.querySelectorAll('.srs-btn').forEach(b=>b.classList.remove('visible'));
+  }
+}
+function advanceToNext(){if(queueIdx>=queue.length)showDone();else renderCard();}
+function rate(quality) {
+  const card=currentCard();
+  if(!card||pendingNext) return;
+  pendingNext=true;
+  const ef=Math.max(1.3,card.easeFactor+(0.1-(5-quality)*(0.08+(5-quality)*0.02)));
+  let interval;
+  if(quality===1){interval=1;card.reps=0;}
+  else if(card.reps===0){interval=1;card.reps=1;}
+  else if(card.reps===1){interval=6;card.reps=2;}
+  else{interval=Math.round(card.interval*ef);card.reps++;}
+  card.interval=interval; card.easeFactor=ef;
+  card.due=Date.now()+interval*24*60*60*1000;
+  const labels={1:'again',2:'hard',3:'good',4:'easy'};
+  sessionStats[labels[quality]]++;
+  save(); queueIdx++;
+  const flipper=document.getElementById('flipper');
+  flipper.classList.remove('flipped');
+  flipper.addEventListener('transitionend',advanceToNext,{once:true});
+}
+function skipCard(){if(pendingNext)return;queueIdx++;if(queueIdx>=queue.length)showDone();else renderCard();}
+function deleteCard(){
+  if(pendingNext)return;
+  const card=currentCard();if(!card)return;
+  card.deleted=true;
+  if(!deletedIds.includes(card.id))deletedIds.push(card.id);
+  save(); queue.splice(queueIdx,1); renderTabs();
+  if(queueIdx>=queue.length)showDone();else renderCard();
+}
+function resetDeck(){buildQueue();renderCard();renderTabs();}
+function showDone(){
+  document.getElementById('scene').style.display='none';
+  document.getElementById('flip-hint').style.display='none';
+  document.getElementById('srs-bar').style.display='none';
+  document.getElementById('done-screen').classList.add('visible');
+  document.getElementById('done-sub').textContent='Session: '+(sessionStats.good+sessionStats.easy)+' good, '+sessionStats.hard+' hard, '+sessionStats.again+' again';
+  renderProgress();renderStats();
+}
+function switchTab(key){activeTab=key;renderTabs();buildQueue();renderCard();}
+renderTabs();buildQueue();renderCard();
+</script>
+</body>
+</html>
